@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <title>WDYW</title>
   <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-
-  
-  <link rel="stylesheet" href="Styles/style.css">
+  <link rel="stylesheet" href="Styles/login.css">
 
   
 </head>
@@ -41,7 +38,7 @@
             <input type="password"required autocomplete="off"/>
           </div>
           
-          <button type="submit" class="button button-block"/>Get Started</button>
+              <button type="submit" class="button button-block"/><a href="Chat.php">Get Started</a></button>
           
           </form>
 
