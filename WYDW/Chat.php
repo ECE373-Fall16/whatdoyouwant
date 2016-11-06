@@ -12,6 +12,21 @@ and open the template in the editor.
     </head>
     <body>
         <?php
+              class MyDB extends SQLite3
+                {
+                    function __construct()
+                    {
+                        $this->open("C:\my website\chatDb_PDO.sqlite");
+                    }
+                }
+                $db = new MyDB();
+                if(!$db){
+                    echo $db->lastErrorMsg();
+                } else {
+                    echo "Opened database successfully\n";
+                }
+
+
         // define variables and set to empty values
         $comment= $name="";
         $nameErr="";
@@ -30,9 +45,6 @@ and open the template in the editor.
             }
         }
                 ?>
-        
-        
-        
         
         <div class="chatbox">
             <div class="chatlogs">
@@ -86,11 +98,20 @@ and open the template in the editor.
             </form>
         </div>
         <?php
-                echo $name;
-                echo "<br>";
-                echo $comment;
-                echo "<br>";
 
+                $db->exec("INSERT INTO chat (name, comment) VALUES ('$name', '$comment');");
+
+                //echo "hey";
+
+                  $sql =<<<EOF
+SELECT name,comment from chat WHERE comment != "";
+EOF;
+
+                $ret = $db->query($sql);
+                while($row = $ret->fetchArray() ){
+                    echo "". $row['name'];
+                    echo ": " . $row['comment'] ."<br>";
+                    }
         ?>
     </body>
 </html>
