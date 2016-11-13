@@ -21,7 +21,7 @@
         <div id="create">   
           <h1>Room Details</h1>
           
-          <form action="/" method="post">
+        <form action="Chat.php" method="post">
           
 
           <div class="field-wrap">
@@ -38,7 +38,7 @@
             <input type="password"required autocomplete="off"/>
           </div>
           
-              <button type="submit" class="button button-block"/><a href="Chat.php">Get Started</a></button>
+              <button type="submit" class="button button-block"/>Get Started</button>
           
           </form>
 
