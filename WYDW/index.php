@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-include 'template.php';
+include 'home.php';
 
 
 
