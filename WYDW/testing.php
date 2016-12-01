@@ -8,23 +8,48 @@
         <meta charset="UTF-8">
         <title></title>
         <link rel="stylesheet" href="Styles/test.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
-       <?php
+	<?php
+            $con = mysqli_connect("localhost","root","","helloworld");
+
+           
+  
             if(isset($_SESSION['username'])){
-                echo 'Hello ' . $_SESSION['username'] ;
+                echo 'Hello ' . strtoupper($_SESSION['username']) .'. ';
+                $username = $_SESSION['username'] ;
             }
             else{
-                echo 'Not signed in';
+                echo 'Not signed in ';
+                 $username = "unknown";
             }
             
             if(isset($_SESSION['roomname'])){
-                echo 'Welcome to' . $_SESSION['roomname'] ;
+                echo ' Welcome to ' . strtoupper($_SESSION['roomname']). '. ' ;
+                $roomname = $_SESSION['roomname'] ;
             }
             else{
-                echo 'No room?';
+                echo ' No room?';
+                $roomname = "";
             }
+             $comment= "";
+             if($_SERVER["REQUEST_METHOD"]=="POST"){
+	            if(empty($_POST["comment"])){
+                	$comment = "";
+            	}
+           		else{
+                	$comment= $_POST["comment"];
+            	}
+        	}
 
+        	$_roomname = mysqli_real_escape_string($con,$roomname);
+        	$_username = mysqli_real_escape_string($con,$username);
+        	$_comment = mysqli_real_escape_string($con,$comment);
+            $statement1 = "INSERT into chat (room, user, message) VALUES ('$_roomname', '$_username', '$_comment')";
+            mysqli_query($con, $statement1);
+            $statement = "SELECT user,message from chat WHERE message != '' AND room = '$_roomname';";
+            $res = mysqli_query($con, $statement);
       ?>
     <div>
         <form action="joinOrCreateRoom.php">
@@ -33,7 +58,7 @@
     </div>
     
     <div>
-        <form action="/">
+        <form action="home.php">
             <button>Sign-out</button>
         </form>
     </div>
@@ -43,61 +68,63 @@
         
         <nav>
           <ul>
-            <li><a href="#">London</a></li>
-            <li><a href="#">Paris</a></li>
-            <li><a href="#">Tokyo</a></li>
+              <?php
+                $tempusername = $_SESSION['username']."_list";
+                $statement = "SELECT * from $tempusername";
+                $res = mysqli_query($con, $statement);
+                if($res){
+                    while($arr = mysqli_fetch_array($res)){
+                    		
+                ?>            
+                
+            <li><a href="#"><?php echo $arr['activerooms'];?></a></li>
+                <?php
+                    }
+                }
+                ?>
           </ul>
         </nav>
-
         <div class="chatbox">
-                <div class="chatlogs">
-                    <div class="chat friend">
-                        <p class="chat-message">What's up, Brother..!</p>
-                    </div>
-                    <div class="chat self">
-                        <p class="chat-message">What's up, ..!</p>
-                    </div>
-                    <div class="chat friend">
-                        <p class="chat-message">
-                            Lorem ipsum dolor sit amet, consectetur 
-                            adipiscing elit. Proin in tristique ipsum.
-                            Quisque ut molestie nisl. Aliquam non viverra est. 
-                            Curabitur in velit at arcu aliquam tempus. 
-                            Proin facilisis, eros quis placerat sodales, 
-                            ipsum ex suscipit mi, vel rhoncus nunc elit sit amet purus. Fusce egestas molestie arcu, at scelerisque elit finibus in. Duis eget sapien sed magna mattis vehicula. Duis libero ante, euismod vel ante id, commodo pretium nisi. Ut viverra, elit ut rutrum malesuada, mi lacus efficitur orci, quis luctus purus nisl in orci. 
-                            Integer ante velit, sollicitudin sit amet risus a, iaculis scelerisque tellus.</p>
-                    </div>
-                    <div class="chat friend">
-                        <p class="chat-message">What's up, Brother..!</p>
-                    </div>
-                    <div class="chat self">
-                        <p class="chat-message">What's up, ..!</p>
-                    </div>
-                    <div class="chat friend">
-                        <p class="chat-message">
-                            Lorem ipsum dolor sit amet, consectetur 
-                            adipiscing elit. Proin in tristique ipsum.
-                            Quisque ut molestie nisl. Aliquam non viverra est. 
-                            Curabitur in velit at arcu aliquam tempus. 
-                            Proin facilisis, eros quis placerat sodales, 
-                            ipsum ex suscipit mi, vel rhoncus nunc elit sit amet purus. Fusce egestas molestie arcu, at scelerisque elit finibus in. Duis eget sapien sed magna mattis vehicula. Duis libero ante, euismod vel ante id, commodo pretium nisi. Ut viverra, elit ut rutrum malesuada, mi lacus efficitur orci, quis luctus purus nisl in orci. 
-                            Integer ante velit, sollicitudin sit amet risus a, iaculis scelerisque tellus.</p>
-                    </div>
-    <!--                <div class="chat">
-                        <p class="chat-message">What's up, Brother..!</p>
-                    </div>-->
-                </div>
-                <div class="chat-form">
-                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
-                         <textarea name="comment" rows="5" cols="40"></textarea>
-                         <button type="submit" name="submit" value="Submit">Send</button>  
-                     </form>
+            <div class="chatlogs">
+                <div class="chat self">
+                    <p class="chat-message">
+                     </p>
                 </div>
             </div>
+            <div class="chat-form">
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+                    <textarea name="comment" rows="5" cols="40"></textarea>
+                    <button type="submit" name="submit" value="Submit">Send</button>  
+                </form>
+            </div>
+        </div>
+        <script>
+        $(document).ready(function(){
+    		function refresh_div() {
+        		jQuery.ajax({
+            		url:'chatquery.php',
+            		type:'POST',
+            		success:function(results) {
+                            var array =  results.split("\n");
+                            var $chat = $(".self");
+                            $chat.empty();
+                            for(var i=0; i<array.length-1; i++){
+                                $chat.append('<p class="chat-message">'+ array[i] +' </p>');
+                            }
+                            
+           		 }
+        		});
+    		}
+    		t = setInterval(refresh_div,100);
+                $(function() {
+                var wtf    = $(".chatlogs");
+                var height = wtf[0].scrollHeight;
+                wtf.scrollTop(height);
+                });7k
+    	});
+        
 
-
-    </div>
-
+		</script>
 </body>
 </html>
 
