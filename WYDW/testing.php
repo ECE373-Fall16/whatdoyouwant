@@ -77,7 +77,9 @@
                     		
                 ?>            
                 
-            <li><a href="#"><?php echo $arr['activerooms'];?></a></li>
+            <li>
+                <form><button><?php echo $arr['activerooms'];?></button></form>
+                </li>
                 <?php
                     }
                 }
@@ -108,19 +110,19 @@
                             var array =  results.split("\n");
                             var $chat = $(".self");
                             $chat.empty();
-                            for(var i=0; i<array.length-1; i++){
+                            for(var i=array.length-2; i>-1; i--){
                                 $chat.append('<p class="chat-message">'+ array[i] +' </p>');
                             }
                             
            		 }
         		});
     		}
-    		t = setInterval(refresh_div,100);
+    		t = setInterval(refresh_div,1);
                 $(function() {
                 var wtf    = $(".chatlogs");
                 var height = wtf[0].scrollHeight;
                 wtf.scrollTop(height);
-                });7k
+                });
     	});
         
 

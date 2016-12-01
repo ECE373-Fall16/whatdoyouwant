@@ -20,7 +20,7 @@
     $row= mysqli_num_rows($res);
     if(!$row){
         $statement = "insert into rooms (roomname, roompassword) VALUES ('$roomname', '$password') ";
-        $res = mysqli_query($con ,$statement);
+        $res = mysqli_query($con,$statement);
         echo 'Success!';
         //$_SESSION['username'] = $username;
         $_SESSION['roomname']=$roomname;
