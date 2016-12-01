@@ -1,3 +1,38 @@
+
+div.container {
+    width: 100%;
+    height: 90%;
+/*    border: 1px solid gray; //??*/
+}
+
+
+nav {
+    float: left;
+/*    max-width: 160px;*/
+    width: 20%;
+    height: 100%;
+    margin: 0;
+    padding: 1em;
+    background: rgba(19, 35, 47, 0.9); 
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+   
+nav ul a {
+    text-decoration: none;
+    color: white;
+    align-items: center;
+}
+
+.list{
+    color: white;
+    
+}
+
+
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -14,18 +49,19 @@ and open the template in the editor.
     box-sizing: border-box;
     
 }
-body{
+
+/*body{
     background: rgba(19, 35, 47, 0.9);
-}
+}*/
 
 .chatbox{
-    width: 500px;
-    min-width: 390px;
-    height: 700px;
+    width: 50%;
+/*    min-width: 390px;*/
+    height: 650px;
     background: #ffffff;
-    margin: 20px auto;
-    padding: 25px;
-    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+    margin-left: 20%;
+/*    padding: 25px;*/
+/*    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);*/
 }
 
 .chatlogs{
@@ -46,8 +82,8 @@ body{
 .chat{
     display: flex;
     flex-flow: row wrap;
-    align-items: flex-start;
-    margin-bottom: 10px
+/*    align-items: flex-start;
+    margin-bottom: 10px;*/
 }
 
 .chat .chat-message{
@@ -64,20 +100,24 @@ body{
 }
 .self .chat-message{
     background: #68B3CC;
-    order: -1;
+/*    order: -1;*/
 }
 
 .chat-form{
-    margin-top: 20px;
-    margin-left: 20px;
-    display:  flex;
-    align-items: flex-start;
+/*    width: 100%;
+    height: 100%;*/
+    margin-top: 10px;
+/*    display: flex;
+    align-items: flex-start;*/
+    /*
+    margin-left: 20px;*/
+
 
 }
 
 .chat-form textarea{
     background: #fbfbfb;
-    width: 350px;
+    width: 90%;
     height: 40px;
     border: 2px solid #2A5970;
     border-radius: 5px;
@@ -90,8 +130,13 @@ body{
 
 .chat-form button{
     background: rgba(19, 35, 47, 0.9);
+    width: 10%;
     height: 40px;
-    padding: 5px 10px;
+    float: right;
+    border-radius: 5px;
+/*    float: right; 
+    height: 40px;
+    padding: 5px 10px;*/
     color: #fff;
 }
 
