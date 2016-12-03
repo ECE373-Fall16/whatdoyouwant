@@ -144,6 +144,116 @@
         
 
 		</script>
+        <div>
+
+<!--<form id="frm1" action="chat.php">
+  Enter Question: <input type="text" name="question"><br>
+</form> 
+-->
+<button onclick="startQuery()">Start Query</button>
+
+<p id="demo"></p>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    
+    
+    var choices = [];
+    var choiceCounter = 0;
+    var q;
+    var choice;
+    var data;
+    
+    function startQuery(){
+        q = prompt("Please enter your question");
+        var btn = document.createElement("BUTTON");
+        var t = document.createTextNode("add choice");
+        btn.appendChild(t);
+        document.body.appendChild(btn);
+        btn.onclick = addChoice;
+        
+        var btn2 = document.createElement("BUTTON");
+        var t2 = document.createTextNode("End Query");
+        btn2.appendChild(t2);
+        document.body.appendChild(btn2);
+        btn2.onclick = endQuery;
+        
+        /*
+        var btn3 = document.createElement("BUTTON");
+        var t3 = document.createTextNode("spin");
+        btn.appendChild(t3);
+        document.body.appendChild(btn3);
+        btn3.onclick = spin;
+        */
+        
+        myFunction();
+    }
+    
+    
+    function addChoice(){
+        var choice = prompt("Please enter your choice");
+        if(choice != null && choice != ""){
+        var c = {choice:choice, votes:1};
+        choices.push(c);}
+    myFunction();
+    }
+    
+    
+function myFunction() {
+    
+    google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Choice');
+            data.addColumn('number', 'Votes');
+            
+            var i;
+            for(i=0; i<choices.length; i++){
+            data.addRow([choices[i].choice, choices[i].votes]);
+            
+            }
+        var options = {
+          title: q
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        
+        function selectHandler() {
+          var selectedItem = chart.getSelection()[0];
+          if (selectedItem) {
+            var row = selectedItem.row;
+            var val = data.getValue(row, 1);
+            val++;
+            choices[row].votes = val;
+            //alert('The user selected ' + row);
+            myFunction();
+          }
+        }
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+        
+        chart.draw(data, options);
+        
+      }
+}
+function endQuery(){
+    var r = confirm("End Query?");
+if (r == true) {
+    q = "";
+    choices = [];
+    myFunction();;
+}       
+        }
+</script>
+
+
+  <head>
+    
+  </head>
+  <body>
+    <div id="piechart" style="width: 500px; height: 500px;"></div>
+  </body>
+  
+</div>
 </body>
 </html>
 
