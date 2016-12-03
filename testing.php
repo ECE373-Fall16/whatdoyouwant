@@ -9,13 +9,6 @@
         <title></title>
         <link rel="stylesheet" href="Styles/test.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script>
-		//	$(document).ready(function(){
-	    //		$("p").click(function(){
-	     //   		$(this).hide();
-	    //		});
-		//	});
-		</script>
 </head>
 <body>
 	<?php
@@ -24,21 +17,21 @@
            
   
             if(isset($_SESSION['username'])){
-                echo 'Hello ' . $_SESSION['username'] ;
+                echo 'Hello ' . strtoupper($_SESSION['username']) .'. ';
                 $username = $_SESSION['username'] ;
             }
             else{
-                echo 'Not signed in';
+                echo 'Not signed in ';
                  $username = "unknown";
             }
             
             if(isset($_SESSION['roomname'])){
-                echo 'Welcome to' . $_SESSION['roomname'] ;
+                echo ' Welcome to ' . strtoupper($_SESSION['roomname']). '. ' ;
                 $roomname = $_SESSION['roomname'] ;
             }
             else{
-                echo 'No room?';
-                $roomname = "test";
+                echo ' No room?';
+                $roomname = "";
             }
              $comment= "";
              if($_SERVER["REQUEST_METHOD"]=="POST"){
@@ -50,10 +43,13 @@
             	}
         	}
 
-            $statement1 = "INSERT into chat (room, user, message) VALUES ('$roomname', '$username', '$comment')";
-            mysqli_query($con, $statement1);
-             $statement = "SELECT user,message from chat WHERE message != '' AND room = '$roomname';";
-             $res = mysqli_query($con, $statement);
+        	$_roomname = mysqli_real_escape_string($con,$roomname);
+        	$_username = mysqli_real_escape_string($con,$username);
+        	$_comment = mysqli_real_escape_string($con,$comment);
+            $statement1 = "INSERT into chat (room, user, message) VALUES ('$_roomname', '$_username', '$_comment')";
+            if($_comment!=''){mysqli_query($con, $statement1);}
+            $statement = "SELECT user,message from chat WHERE message != '' AND room = '$_roomname';";
+            $res = mysqli_query($con, $statement);
       ?>
     <div>
         <form action="joinOrCreateRoom.php">
@@ -62,7 +58,7 @@
     </div>
     
     <div>
-        <form action="/">
+        <form action="home.php">
             <button>Sign-out</button>
         </form>
     </div>
@@ -72,47 +68,192 @@
         
         <nav>
           <ul>
-            <li><a href="#">London</a></li>
-            <li><a href="#">Paris</a></li>
-            <li><a href="#">Tokyo</a></li>
+              <?php
+                $tempusername = $_SESSION['username']."_list";
+                $statement = "SELECT * from $tempusername";
+                $res = mysqli_query($con, $statement);
+                if($res){
+                    while($arr = mysqli_fetch_array($res)){
+                    		
+                ?>            
+                
+            <li>
+            	<?php $var = $arr['activerooms'];?>
+                <form id ="buttons"><button><?php echo $var; ?></button></form>
+
+                <?php
+                    }
+                }
+                ?>
+                </li>
+                
           </ul>
+                          <script>
+			$(document).ready(function() {
+                $("#buttons button").click(function() {
+    				var x = $(this).text();
+    				$.ajax({
+                    type: 'POST',
+                    url: 'ajax.php',
+                    data: { 
+                    	'y':'change',
+                    	'x':x 
+                    },
+                    success: function(data)
+                    {
+ 
+                    }
+                });
+            });
+        });
+				</script>
         </nav>
-
         <div class="chatbox">
-                <div class="chatlogs">
-                    
-                    <?php 
-						if($res)
-            			{
-
-                    		while($arr = mysqli_fetch_array($res)){?>
-                    <div class="chat friend">
-                        <p class="chat-message">
-                         <?php
-         						echo "".$arr['user'];
-         						echo ": " . $arr['message'] ."<br>";
-                  		  ?>
-                         </p>
-                    </div>
-                    <?php
-                            } 
-                        }
-                         ?>  
-    <!--                <div class="chat">
-                        <p class="chat-message">What's up, Brother..!</p>
-                    </div>-->
-                </div>
-                <div class="chat-form">
-                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
-                         <textarea name="comment" rows="5" cols="40"></textarea>
-                         <button type="submit" name="submit" value="Submit">Send</button>  
-                     </form>
+            <div class="chatlogs">
+                <div class="chat self">
+                    <p class="chat-message">
+                     </p>
                 </div>
             </div>
+            <div class="chat-form">
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+                    <textarea name="comment" rows="5" cols="40"></textarea>
+                    <button type="submit" name="submit" value="Submit">Send</button>  
+                </form>
+            </div>
+        </div>
+        <script>
+        $(document).ready(function(){
+    		function refresh_div() {
+        		jQuery.ajax({
+            		url:'chatquery.php',
+            		type:'POST',
+            		success:function(results) {
+                            var array =  results.split("\n");
+                            var $chat = $(".self");
+                            $chat.empty();
+                            for(var i=array.length-2; i>-1; i--){
+                                $chat.append('<p class="chat-message">'+ array[i] +' </p>');
+                            }
+                            
+           		 }
+        		});
+    		}
+    		t = setInterval(refresh_div,100);
+    	});
+        
+
+		</script>
+        <div>
+
+<!--<form id="frm1" action="chat.php">
+  Enter Question: <input type="text" name="question"><br>
+</form> 
+-->
+<button onclick="startQuery()">Start Query</button>
+
+<p id="demo"></p>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    
+    
+    var choices = [];
+    var choiceCounter = 0;
+    var q;
+    var choice;
+    var data;
+    
+    function startQuery(){
+        q = prompt("Please enter your question");
+        var btn = document.createElement("BUTTON");
+        var t = document.createTextNode("add choice");
+        btn.appendChild(t);
+        document.body.appendChild(btn);
+        btn.onclick = addChoice;
+        
+        var btn2 = document.createElement("BUTTON");
+        var t2 = document.createTextNode("End Query");
+        btn2.appendChild(t2);
+        document.body.appendChild(btn2);
+        btn2.onclick = endQuery;
+        
+        /*
+        var btn3 = document.createElement("BUTTON");
+        var t3 = document.createTextNode("spin");
+        btn.appendChild(t3);
+        document.body.appendChild(btn3);
+        btn3.onclick = spin;
+        */
+        
+        myFunction();
+    }
+    
+    
+    function addChoice(){
+        var choice = prompt("Please enter your choice");
+        if(choice != null && choice != ""){
+        var c = {choice:choice, votes:1};
+        choices.push(c);}
+    myFunction();
+    }
+    
+    
+function myFunction() {
+    
+    google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Choice');
+            data.addColumn('number', 'Votes');
+            
+            var i;
+            for(i=0; i<choices.length; i++){
+            data.addRow([choices[i].choice, choices[i].votes]);
+            
+            }
+        var options = {
+          title: q
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        
+        function selectHandler() {
+          var selectedItem = chart.getSelection()[0];
+          if (selectedItem) {
+            var row = selectedItem.row;
+            var val = data.getValue(row, 1);
+            val++;
+            choices[row].votes = val;
+            //alert('The user selected ' + row);
+            myFunction();
+          }
+        }
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+        
+        chart.draw(data, options);
+        
+      }
+}
+function endQuery(){
+    var r = confirm("End Query?");
+if (r == true) {
+    q = "";
+    choices = [];
+    myFunction();;
+}       
+        }
+</script>
 
 
-    </div>
-
+  <head>
+    
+  </head>
+  <body>
+    <div id="piechart" style="width: 500px; height: 500px;"></div>
+  </body>
+  
+</div>
 </body>
 </html>
 
