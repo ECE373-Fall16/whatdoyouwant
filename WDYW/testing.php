@@ -150,6 +150,10 @@
   Enter Question: <input type="text" name="question"><br>
 </form> 
 -->
+<button onclick="selectChoices()">Select Choices</button>
+
+<button onclick="clearChoices()">Clear Choices</button>
+
 <button onclick="startQuery()">Start Query</button>
 
 <p id="demo"></p>
@@ -163,7 +167,36 @@
     var q;
     var choice;
     var data;
+
+    function selectChoices(){
+        $.ajax({
+                    type: 'POST',
+                    url: 'selectchoicequery.php',
+                    success:function(results2) {
+                            var array2 =  results2.split("\n");
+                            var $chat2 = $(".self");
+                            $chat2.empty();
+                            for(var i=array2.length-2; i>-1; i--){
+                                $chat2.append('<p class="chat-message">'+ array2[i] +' </p>');
+                            }   
+                 }
+                });
+    }
     
+    function clearChoices(){
+        $.ajax({
+                    type: 'POST',
+                    url: 'clearchoicesquery.php',
+                    data: { 
+                        'm':'change',
+                    },
+                    success: function(data)
+                    {
+ 
+                    }
+                });
+    }
+
     function startQuery(){
         q = prompt("Please enter your question");
         var btn = document.createElement("BUTTON");
@@ -178,13 +211,11 @@
         document.body.appendChild(btn2);
         btn2.onclick = endQuery;
         
-        /*
         var btn3 = document.createElement("BUTTON");
         var t3 = document.createTextNode("spin");
-        btn.appendChild(t3);
+        btn3.appendChild(t3);
         document.body.appendChild(btn3);
         btn3.onclick = spin;
-        */
         
         myFunction();
     }
@@ -192,13 +223,39 @@
     
     function addChoice(){
         var choice = prompt("Please enter your choice");
+        $.ajax({
+                    type: 'POST',
+                    url: 'addchoicequery.php',
+                    data: { 
+                        'q':'change',
+                        'z':choice 
+                    },
+                    success: function(data)
+                    {
+ 
+                    }
+                });
         if(choice != null && choice != ""){
         var c = {choice:choice, votes:1};
         choices.push(c);}
     myFunction();
     }
     
-    
+    function spin(){
+var x;
+var y;
+var counter = 0;
+var arr = [];
+for(x=0; x<choices.length; x++){
+    for(y=0; y<choices[x].votes; y++){
+        arr[counter] = choices[x].choice;
+        counter++;
+        }
+    }
+var rand = arr[Math.floor(Math.random() * arr.length)];
+alert(rand);
+}
+
 function myFunction() {
     
     google.charts.load('current', {'packages':['corechart']});
