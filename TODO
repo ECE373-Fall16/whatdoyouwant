@@ -1,7 +1,14 @@
 TODO
-Go Live
-Integrate Wyatt's Pie Chart
-Connect Pie Chart to database
-Test EVERYTHING
-Create Logo
-Clean Up UI
+-Go Live (Kachi)
+
+-Integrate Wyatt's Pie Chart (Wyatt John and Deji)
+--Fix Select Choice Query to create "Choice" array. Continously query it with auto refresh
+--Allow only one vote per user (query to see if selection with matching user and room exists, if it does, do not insert, update)
+---Update choice on click
+--Update room prompt & continuously query it. Be able to delete it
+--Update room result & continuously query it. Be able to delete it
+
+-Test EVERYTHING (Kachi)
+
+-Clean Up UI (Everyone)
+--Create Logo
