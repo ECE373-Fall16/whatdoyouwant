@@ -63,18 +63,15 @@
         </form>
     </div>
     
-    <div class="container">
-
-        
+    <div class="container">       
         <nav>
-          <ul>
-              <?php
-                $tempusername = $_SESSION['username']."_list";
-                $statement = "SELECT * from $tempusername";
-                $res = mysqli_query($con, $statement);
-                if($res){
-                    while($arr = mysqli_fetch_array($res)){
-                    		
+            <ul>
+                <?php
+                    $tempusername = $_SESSION['username']."_list";
+                    $statement = "SELECT * from $tempusername";
+                    $res = mysqli_query($con, $statement);
+                    if($res){
+                        while($arr = mysqli_fetch_array($res)){   		
                 ?>            
                 
             <li>
@@ -87,8 +84,8 @@
                 ?>
                 </li>
                 
-          </ul>
-                          <script>
+            </ul>
+            <script>
 			$(document).ready(function() {
                 $("#buttons button").click(function() {
     				var x = $(this).text();
@@ -106,7 +103,7 @@
                 });
             });
         });
-				</script>
+		</script>
         </nav>
         <div class="chatbox">
             <div class="chatlogs">
@@ -136,20 +133,15 @@
                                 $chat.append('<p class="chat-message">'+ array[i] +' </p>');
                             }
                             
-           		 }
+           		   }
         		});
     		}
-    		t = setInterval(refresh_div,100);
-    	});
-        
+            t = setInterval(refresh_div,100);
 
+    	});
 		</script>
         <div>
 
-<!--<form id="frm1" action="chat.php">
-  Enter Question: <input type="text" name="question"><br>
-</form> 
--->
 <button onclick="selectChoices()">Select Choices</button>
 
 <button onclick="clearChoices()">Clear Choices</button>
@@ -161,40 +153,37 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
     
-    
     var choices = [];
     var choiceCounter = 0;
     var q;
     var choice;
     var data;
+    var count =[];
 
-    function selectChoices(){
+    function selectChoices() {
         $.ajax({
-                    type: 'POST',
-                    url: 'selectchoicequery.php',
-                    success:function(results2) {
-                            var array2 =  results2.split("\n");
-                            var $chat2 = $(".self");
-                            $chat2.empty();
-                            for(var i=array2.length-2; i>-1; i--){
-                                $chat2.append('<p class="chat-message">'+ array2[i] +' </p>');
-                            }   
-                 }
-                });
+            type: 'POST',
+            url: 'selectchoicequery.php',
+            success:function(results2) {
+                count = results2;
+                //var key = Object.keys(count)[1];
+                //  alert( key + " " + count[key] + " " + Object.keys(count).length);
+                //  myFunction();
+            }
+        });        
     }
-    
+
+
     function clearChoices(){
         $.ajax({
-                    type: 'POST',
-                    url: 'clearchoicesquery.php',
-                    data: { 
-                        'm':'change',
-                    },
-                    success: function(data)
-                    {
- 
-                    }
-                });
+            type: 'POST',
+            url: 'clearchoicesquery.php',
+            data: { 
+                'm':'change',
+            },
+            success: function(data){
+            }
+        });
     }
 
     function startQuery(){
@@ -224,82 +213,95 @@
     function addChoice(){
         var choice = prompt("Please enter your choice");
         $.ajax({
-                    type: 'POST',
-                    url: 'addchoicequery.php',
-                    data: { 
-                        'q':'change',
-                        'z':choice 
-                    },
-                    success: function(data)
-                    {
- 
-                    }
-                });
-        if(choice != null && choice != ""){
-        var c = {choice:choice, votes:1};
-        choices.push(c);}
-    myFunction();
+            type: 'POST',
+            url: 'addchoicequery.php',
+            data: { 
+                'q':'change',
+                'z':choice 
+            },
+            success: function(data){
+            }
+        });
+
+        // if(choice != null && choice != ""){
+        //     var c = {choice:choice, votes:1};
+        //     choices.push(c);
+        // }
+        
+        myFunction();
     }
     
     function spin(){
-var x;
-var y;
-var counter = 0;
-var arr = [];
-for(x=0; x<choices.length; x++){
-    for(y=0; y<choices[x].votes; y++){
-        arr[counter] = choices[x].choice;
-        counter++;
+        var x;
+        var y;
+        var counter = 0;
+        var arr = [];
+        for(x=0; x<choices.length; x++){
+            for(y=0; y<choices[x].votes; y++){
+                arr[counter] = choices[x].choice;
+                counter++;
+            }
         }
+        var rand = arr[Math.floor(Math.random() * arr.length)];
+        alert(rand);
     }
-var rand = arr[Math.floor(Math.random() * arr.length)];
-alert(rand);
-}
 
-function myFunction() {
-    
-    google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = new google.visualization.DataTable();
+    function myFunction() {
+          
+
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            selectChoices();  
+            var data = new google.visualization.DataTable();
             data.addColumn('string', 'Choice');
             data.addColumn('number', 'Votes');
             
             var i;
-            for(i=0; i<choices.length; i++){
-            data.addRow([choices[i].choice, choices[i].votes]);
+            // for(i=0; i<choices.length; i++){
+            // data.addRow([choices[i].choice, choices[i].votes]);
             
+            // }
+                    // alert("LENGTH OF COUNT: "+Object.keys(count).length);
+
+            for(i=0; i<=Object.keys(count).length; i++){
+               
+                var key = Object.keys(count)[i];
+                var value = count[key];
+                //alert("---->"+key + ", value: " + value);
+                data.addRow([key, parseInt(value)]);
+                
             }
-        var options = {
-          title: q
-        };
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            var options = {
+                title: q
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         
-        function selectHandler() {
-          var selectedItem = chart.getSelection()[0];
-          if (selectedItem) {
-            var row = selectedItem.row;
-            var val = data.getValue(row, 1);
-            val++;
-            choices[row].votes = val;
-            //alert('The user selected ' + row);
-            myFunction();
-          }
+            function selectHandler() {
+                var selectedItem = chart.getSelection()[0];
+                if (selectedItem) {
+                    var row = selectedItem.row;
+                    var val = data.getValue(row, 1);
+                    val++;
+                    choices[row].votes = val;
+                    //alert('The user selected ' + row);
+                    myFunction();
+                }
+            }
+            google.visualization.events.addListener(chart, 'select', selectHandler);
+            chart.draw(data, options);
+        
         }
-        google.visualization.events.addListener(chart, 'select', selectHandler);
-        
-        chart.draw(data, options);
-        
-      }
-}
-function endQuery(){
-    var r = confirm("End Query?");
-if (r == true) {
-    q = "";
-    choices = [];
-    myFunction();;
-}       
-        }
+    }
+
+    function endQuery(){
+        var r = confirm("End Query?");
+        if (r == true) {
+            q = "";
+            choices = [];
+            myFunction();;
+        }       
+    }
 </script>
 
 
