@@ -2,7 +2,7 @@ TODO
 -Go Live (Kachi)
 
 -Integrate Wyatt's Pie Chart (Wyatt John and Deji)
---Fix Select Choice Query to create "Choice" array. Continously query it with auto refresh
+--Fix Wyatt's pie chart
 --Allow only one vote per user (query to see if selection with matching user and room exists, if it does, do not insert, update)
 ---Update choice on click
 --Update room prompt & continuously query it. Be able to delete it
