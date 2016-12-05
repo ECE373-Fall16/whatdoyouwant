@@ -184,6 +184,7 @@
             success: function(data){
             }
         });
+        myFunction();
     }
 
     function startQuery(){
@@ -219,7 +220,7 @@
                 'q':'change',
                 'z':choice 
             },
-            success: function(data){
+            success: function(data){myFunction();
             }
         });
 
@@ -227,8 +228,8 @@
         //     var c = {choice:choice, votes:1};
         //     choices.push(c);
         // }
+        //selectChoices();
         
-        myFunction();
     }
     
     function spin(){
@@ -236,23 +237,27 @@
         var y;
         var counter = 0;
         var arr = [];
-        for(x=0; x<choices.length; x++){
-            for(y=0; y<choices[x].votes; y++){
-                arr[counter] = choices[x].choice;
+        for(x=0; x<Object.keys(count).length; x++){
+            var key = Object.keys(count)[x];
+            var value = count[key];
+            for(y=0; y<value; y++){
+                arr[counter] = key;
                 counter++;
             }
         }
         var rand = arr[Math.floor(Math.random() * arr.length)];
         alert(rand);
+
     }
 
     function myFunction() {
-          
-
+        
+        selectChoices();
+        var myVar = setTimeout(drawChart, 100);  
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
-            selectChoices();  
+  
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Choice');
             data.addColumn('number', 'Votes');
@@ -262,7 +267,7 @@
             // data.addRow([choices[i].choice, choices[i].votes]);
             
             // }
-                    // alert("LENGTH OF COUNT: "+Object.keys(count).length);
+                     //alert("LENGTH OF COUNT: "+Object.keys(count).length);
 
             for(i=0; i<=Object.keys(count).length; i++){
                
@@ -281,10 +286,17 @@
                 var selectedItem = chart.getSelection()[0];
                 if (selectedItem) {
                     var row = selectedItem.row;
-                    var val = data.getValue(row, 1);
-                    val++;
-                    choices[row].votes = val;
-                    //alert('The user selected ' + row);
+                    var val = data.getValue(row, 0);
+                    $.ajax({
+            type: 'POST',
+            url: 'addchoicequery.php',
+            data: { 
+                'q':'change',
+                'z':val 
+            },
+            success: function(data){
+            }
+        });
                     myFunction();
                 }
             }
@@ -298,8 +310,7 @@
         var r = confirm("End Query?");
         if (r == true) {
             q = "";
-            choices = [];
-            myFunction();;
+            //choices = [];
         }       
     }
 </script>
