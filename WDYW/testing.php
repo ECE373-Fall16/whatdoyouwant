@@ -85,6 +85,7 @@
                 </li>
                 
             </ul>
+
             <script>
 			$(document).ready(function() {
                 $("#buttons button").click(function() {
@@ -131,8 +132,7 @@
                             $chat.empty();
                             for(var i=array.length-2; i>-1; i--){
                                 $chat.append('<p class="chat-message">'+ array[i] +' </p>');
-                            }
-                            
+                            }                         
            		   }
         		});
     		}
@@ -141,10 +141,12 @@
     	});
 		</script>
         <div>
+<div id ="prompt"> </div>
+<button onclick="addChoice()">Add Choice</button>
 
-<button onclick="selectChoices()">Select Choices</button>
+<button onclick="endQuery()">End Query</button>
 
-<button onclick="clearChoices()">Clear Choices</button>
+<button onclick="spin()">Spin</button>
 
 <button onclick="startQuery()">Start Query</button>
 
@@ -152,7 +154,6 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-    
     var choices = [];
     var choiceCounter = 0;
     var q;
@@ -173,6 +174,16 @@
         });        
     }
 
+    function queryPrompt(){
+        $.ajax({
+            type: 'POST',
+            url: 'promptquery.php',
+            success: function(results3){
+                //alert(results3);
+                $('#prompt').text(results3);
+            }
+        });
+    }
 
     function clearChoices(){
         $.ajax({
@@ -184,28 +195,41 @@
             success: function(data){
             }
         });
+        count =[];
         myFunction();
     }
 
     function startQuery(){
         q = prompt("Please enter your question");
-        var btn = document.createElement("BUTTON");
-        var t = document.createTextNode("add choice");
-        btn.appendChild(t);
-        document.body.appendChild(btn);
-        btn.onclick = addChoice;
+        $.ajax({
+            type: 'POST',
+            url: 'prompt.php',
+            data: { 
+                'p':'change',
+                'q':q 
+            },
+            success:function(data) {
+            }
+        });        
+
+
+        //var btn = document.createElement("BUTTON");
+        // var t = document.createTextNode("add choice");
+        // btn.appendChild(t);
+        // document.body.appendChild(btn);
+        // btn.onclick = addChoice;
         
-        var btn2 = document.createElement("BUTTON");
-        var t2 = document.createTextNode("End Query");
-        btn2.appendChild(t2);
-        document.body.appendChild(btn2);
-        btn2.onclick = endQuery;
+        // var btn2 = document.createElement("BUTTON");
+        // var t2 = document.createTextNode("End Query");
+        // btn2.appendChild(t2);
+        // document.body.appendChild(btn2);
+        // btn2.onclick = endQuery;
         
-        var btn3 = document.createElement("BUTTON");
-        var t3 = document.createTextNode("spin");
-        btn3.appendChild(t3);
-        document.body.appendChild(btn3);
-        btn3.onclick = spin;
+        // var btn3 = document.createElement("BUTTON");
+        // var t3 = document.createTextNode("spin");
+        // btn3.appendChild(t3);
+        // document.body.appendChild(btn3);
+        // btn3.onclick = spin;
         
         myFunction();
     }
@@ -213,6 +237,7 @@
     
     function addChoice(){
         var choice = prompt("Please enter your choice");
+        if(choice!=''){
         $.ajax({
             type: 'POST',
             url: 'addchoicequery.php',
@@ -223,13 +248,24 @@
             success: function(data){myFunction();
             }
         });
+    }
+    else{
+        alert("You entered a blank choice.")
+    }
+    }
 
-        // if(choice != null && choice != ""){
-        //     var c = {choice:choice, votes:1};
-        //     choices.push(c);
-        // }
-        //selectChoices();
-        
+        function addChoicex(choice){
+        //var choice = prompt("Please enter your choice");
+        $.ajax({
+            type: 'POST',
+            url: 'addchoicequery.php',
+            data: { 
+                'q':'change',
+                'z':choice 
+            },
+            success: function(data){myFunction();
+            }
+        });
     }
     
     function spin(){
@@ -247,11 +283,13 @@
         }
         var rand = arr[Math.floor(Math.random() * arr.length)];
         alert(rand);
+        clearChoices();
+        addChoicex(rand);
 
     }
-
+    var test = setInterval(myFunction,1500);
     function myFunction() {
-        
+        queryPrompt();
         selectChoices();
         var myVar = setTimeout(drawChart, 100);  
         google.charts.load('current', {'packages':['corechart']});
@@ -310,7 +348,8 @@
         var r = confirm("End Query?");
         if (r == true) {
             q = "";
-            //choices = [];
+            clearChoices();
+            //count = [];
         }       
     }
 </script>
