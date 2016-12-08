@@ -1,4 +1,7 @@
 <?php 
+
+    ob_start();
+
     session_start();
 ?>
 <!DOCTYPE html>
@@ -13,7 +16,6 @@
 </head>
 
 <body>
-          
          <?php
             if(isset($_SESSION['username'])){
                 echo 'Hello ' . $_SESSION['username'] ;
@@ -41,17 +43,17 @@
               <label>
                 Room-name<span class="req">*</span>
               </label>
-                <input type="name" name="roomnamec" required autocomplete="off"/>
+                <input type="text" name="roomnamec" required autocomplete="off"/>
             </div>
 
             <div class="field-wrap">
               <label>
                 Password<span class="req">*</span>
               </label>
-                <input type="password"r name="roompasswordc" required autocomplete="off"/>
+                <input type="password" name="roompasswordc" required autocomplete="off"/>
             </div>
 
-                <button type="submit" class="button button-block"/>Get Started</button>
+                <button type="submit" class="button button-block">Get Started</button>
           
           </form>
 
@@ -67,7 +69,7 @@
             <label>
               Room-name<span class="req">*</span>
             </label>
-              <input type="name" name="roomnamej" required autocomplete="off"/>
+              <input type="text" name="roomnamej" required autocomplete="off"/>
           </div>
           
           <div class="field-wrap">

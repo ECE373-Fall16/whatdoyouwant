@@ -1,14 +1,6 @@
-<?php session_start(); // initialize the session variables
-
-      session_unset(); // clear the $_SESSION variable
-
-      if(isset($_COOKIE[session_name()])) {
-          setcookie(session_name(),'',time()-3600); # Unset the session id
-      }
-      session_destroy(); // finally destroy the session
-?>
-
 <?php 
+    ob_start();
+
     session_start();
 ?>
 <!DOCTYPE html>
@@ -51,14 +43,14 @@
               <label>
                 Username<span class="req">*</span>
               </label>
-                <input type="name" name="username1" required autocomplete="off"/>
+                <input type="text" name="username1" required autocomplete="off"/>
             </div>
 
             <div class="field-wrap">
               <label>
                 Password<span class="req">*</span>
               </label>
-                <input type="password"r name="password1" required autocomplete="off"/>
+                <input type="password" name="password1" required autocomplete="off"/>
             </div>
 
                 <button type="submit" class="button button-block"/>Get Started</button>
@@ -77,7 +69,7 @@
             <label>
               Username<span class="req">*</span>
             </label>
-              <input type="name" name="username" required autocomplete="off"/>
+              <input type="text" name="username" required autocomplete="off"/>
           </div>
           
           <div class="field-wrap">
@@ -98,7 +90,7 @@
 </div> <!-- /form -->
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-      <script src="js/index.js"></script>
+    <script src="js/index.js"></script>
 
 </body>
 </html>

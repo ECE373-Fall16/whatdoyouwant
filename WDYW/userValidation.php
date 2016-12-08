@@ -1,5 +1,6 @@
+<?php
+        ob_start();
 
-        <?php
             session_start();
             $con = mysqli_connect("localhost","root","","helloworld");
 
@@ -29,4 +30,4 @@
 
                     header('Location: home.php');
             }
-            
+?>

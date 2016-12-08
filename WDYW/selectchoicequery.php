@@ -1,6 +1,6 @@
 <?php
-header('Content-Type: application/json');
-    session_start();
+    session_start(); //session was below header
+    header('Content-Type: application/json');
     $con = mysqli_connect("localhost","root","","helloworld");
 
             if(isset($_SESSION['roomname'])){

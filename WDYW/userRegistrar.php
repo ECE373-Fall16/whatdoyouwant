@@ -1,6 +1,6 @@
-
-
 <?php
+    ob_start();
+
         session_start();
 
     $con = mysqli_connect("localhost","root","","helloworld");
@@ -9,10 +9,8 @@
     $password = $_POST['password1'];
     $statement = "SELECT id from register WHERE name='$username' ";
     $res = mysqli_query($con, $statement);
-    echo '$res';
     if($res){
         while($arr = mysqli_fetch_array($res)){
-            echo 'Username Taken!';
             header('Location: home.php');
 
         }
@@ -21,7 +19,6 @@
     if(!$row){
         $statement = "insert into register (name, password) VALUES ('$username', '$password') ";
         $res = mysqli_query($con ,$statement);
-        echo 'Success!';
         $_SESSION['username'] = $username;
         $tempusername = $username."_list";
         $sql = "CREATE TABLE $tempusername (
@@ -34,3 +31,4 @@ activerooms VARCHAR(20) NOT NULL PRIMARY KEY
 
 
 
+?>
