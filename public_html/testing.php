@@ -14,8 +14,8 @@
 </head>
 <body>
 	<?php
-            //$con = mysqli_connect("localhost","root","","helloworld");
-$con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
+        //$con = mysqli_connect("localhost","root","","helloworld");
+        $con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
 
            
   
@@ -129,12 +129,13 @@ $con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
         </div>
         
         <div class="decider">
-            <div id ="prompt" style="color: #ffffff; text-align: center; vertical-align: middle; line-height: 90px;  "> </div>
+            <div id ="prompt" style="color: #ffffff; text-align: left; vertical-align: middle; line-height: 70px;  "> </div>
+            <div id="result" style="color: #ffffff; text-align: center; margin-right: 150px; vertical-align: middle; " ></div>
             <div id="piechart"></div>
-            <button onclick="addChoice()">Add Choice</button>
-            <button onclick="endQuery()">End Query</button>
+            <button onclick="addChoice()">My Choice</button>
+            <button onclick="endQuery()">Clear</button>
             <button onclick="spin()">Spin</button>
-            <button onclick="startQuery()">Start Query</button>
+            <button onclick="startQuery()">Prompt</button>
         </div>
     </div>
 <!--    
@@ -178,7 +179,7 @@ $con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
                 url: 'resultquery.php',
                 success: function(results4){
                     //alert(results3);
-                    $('#result').text(results4);
+                    $('#result').text("Result: "+results4);
                 }
             });
         }
@@ -214,7 +215,7 @@ $con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
                 url: 'promptquery.php',
                 success: function(results3){
                     //alert(results3);
-                    $('#prompt').text(results3);
+                    $('#prompt').text("Prompt: "+results3);
                 }
             });
         }
@@ -352,7 +353,7 @@ $con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
                 }
                 var options = {
                     title: q,
-                    backgroundColor: 'transparent',
+                    backgroundColor: 'transparent'
 //                    is3D: true
                 };
                 var chart = new google.visualization.PieChart(document.getElementById('piechart'));
