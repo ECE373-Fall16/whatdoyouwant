@@ -2,7 +2,8 @@
         ob_start();
 
             session_start();
-            $con = mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
+            //$con = mysqli_connect("localhost","root","","helloworld");
+$con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
 
             $username= $_POST['username'];
             $password = $_POST['password'];

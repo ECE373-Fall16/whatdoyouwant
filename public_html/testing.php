@@ -14,7 +14,8 @@
 </head>
 <body>
 	<?php
-            $con = mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
+            //$con = mysqli_connect("localhost","root","","helloworld");
+$con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
 
            
   
@@ -55,7 +56,7 @@
       ?>
     <div>
         <form action="joinOrCreateRoom.php">
-            <button>New Chat</button>
+            <button>Join Room</button>
         </form>
     </div>
     
@@ -67,7 +68,8 @@
     
     <div class="container">       
         <nav>
-            <ul>
+            <h1 style="color: #ffffff">Active Rooms:</h1>
+            <ul>   
                 <?php
                     $tempusername = $_SESSION['username']."_list";
                     $statement = "SELECT * from $tempusername";
@@ -76,10 +78,12 @@
                         while($arr = mysqli_fetch_array($res)){   		
                 ?>            
                 
-            <li>
-                
+               
+                 <li>
             	<?php $var = $arr['activerooms'];?>
-                <form id ="buttons"><button class="myButton"><?php echo $var; ?></button></form>
+                <form id ="buttons">
+                    <button class="myButton"><?php echo $var; ?></button>
+                </form>
 
                 <?php
                     }
@@ -118,19 +122,25 @@
             </div>
             <div class="chat-form">
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
-                    <textarea name="comment" rows="5" cols="40"></textarea>
-                    <button type="submit" name="submit" value="Submit">Send</button>  
+                    <input class="itextarea" type="text" name="comment">
+                    <input class="ibutton" type="submit" value="Enter">
                 </form>
             </div>
         </div>
+        
+        <div class="decider">
+            <div id ="prompt" style="color: #ffffff; text-align: center; vertical-align: middle; line-height: 90px;  "> </div>
+            <div id="piechart"></div>
+            <button onclick="addChoice()">Add Choice</button>
+            <button onclick="endQuery()">End Query</button>
+            <button onclick="spin()">Spin</button>
+            <button onclick="startQuery()">Start Query</button>
+        </div>
     </div>
-    <div id ="prompt"> </div>
-    <button onclick="addChoice()">Add Choice</button>
-    <button onclick="endQuery()">End Query</button>
-    <button onclick="spin()">Spin</button>
-    <button onclick="startQuery()">Start Query</button>
-    <p id="demo"></p>
-    <div id="piechart" style="width: 500px; height: 500px;"></div>
+<!--    
+   
+    <p id="demo"></p>-->
+    
 
     <script>
     $(document).ready(function(){
@@ -151,7 +161,7 @@
         t = setInterval(refresh_div,100);
 
     });
-            </script>
+    </script>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -161,7 +171,30 @@
         var choice;
         var data;
         var count =[];
+        
+        function queryResult(){
+            $.ajax({
+                type: 'POST',
+                url: 'resultquery.php',
+                success: function(results4){
+                    //alert(results3);
+                    $('#result').text(results4);
+                }
+            });
+        }
 
+        function startResult(rand){
+            $.ajax({
+                type: 'POST',
+                url: 'result.php',
+                data: { 
+                    'o':'change',
+                    'rand':rand 
+                },
+                success:function(data) {
+                }
+            }); 
+        }
         function selectChoices() {
             $.ajax({
                 type: 'POST',
@@ -285,12 +318,14 @@
             alert(rand);
             clearChoices();
             addChoicex(rand);
+            startResult(rand);
 
         }
         var test = setInterval(myFunction,1500);
         
         function myFunction() {
             queryPrompt();
+            queryResult();
             selectChoices();
             var myVar = setTimeout(drawChart, 100);  
             google.charts.load('current', {'packages':['corechart']});
@@ -316,7 +351,9 @@
 
                 }
                 var options = {
-                    title: q
+                    title: q,
+                    backgroundColor: 'transparent',
+//                    is3D: true
                 };
                 var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
