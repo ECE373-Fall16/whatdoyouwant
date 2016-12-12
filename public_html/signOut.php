@@ -1,6 +1,4 @@
 <?php 
-    ob_start();
-
     session_start(); // initialize the session variables
 
       session_unset(); // clear the $_SESSION variable

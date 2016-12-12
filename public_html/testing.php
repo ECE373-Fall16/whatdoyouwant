@@ -1,6 +1,4 @@
 <?php
-    ob_start();
-
     session_start();
 ?>
 
@@ -8,20 +6,31 @@
 <html>
 <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title></title>
         <link rel="stylesheet" href="Styles/test.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
+    <div>
+        <form action="joinOrCreateRoom.php" style="display: inline">
+            <button class="button">Join Room</button>
+        </form>
+        <form action="signOut.php" style="display: inline">
+            <button class="signOut">Sign out</button>
+        </form>
+    </div>
+    
+
+
 	<?php
-        //$con = mysqli_connect("localhost","root","","helloworld");
+        //$con = mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
         $con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
 
            
   
             if(isset($_SESSION['username'])){
-                echo 'Hello ' . strtoupper($_SESSION['username']) .'. ';
-                $username = $_SESSION['username'] ;
+                 $username = $_SESSION['username'] ;
             }
             else{
                 echo 'Not signed in ';
@@ -29,11 +38,17 @@
             }
             
             if(isset($_SESSION['roomname'])){
-                echo ' Welcome to ' . strtoupper($_SESSION['roomname']). '. ' ;
-                $roomname = $_SESSION['roomname'] ;
+                $roomname = $_SESSION['roomname'] ; ?>
+                <div style=" text-align: center; margin-right: 250px; color: #1ab188;font-family: 'Titillium Web', sans-serif; font-size: 18px"> 
+                    <h2><?php echo 'Hello ' . strtoupper($username) .'. '.'Welcome to: '.$roomname;?></h2>
+                </div>
+        <?php
             }
-            else{
-                echo ' No room?';
+            else{?>
+                <div style=" text-align: center; margin-right: 250px; color: #1ab188;font-family: 'Titillium Web', sans-serif; font-size: 18px"> 
+                    <h2><?php echo 'Hello ' . strtoupper($username) .'. '.'Please Join a room';?></h2>
+                </div>
+    <?php
                 $roomname = "";
             }
              $comment= "";
@@ -54,21 +69,11 @@
             $statement = "SELECT user,message from chat WHERE message != '' AND room = '$_roomname';";
             $res = mysqli_query($con, $statement);
       ?>
-    <div>
-        <form action="joinOrCreateRoom.php">
-            <button>Join Room</button>
-        </form>
-    </div>
-    
-    <div>
-        <form action="signOut.php">
-            <button>Sign-out</button>
-        </form>
-    </div>
+
     
     <div class="container">       
         <nav>
-            <h1 style="color: #ffffff">Active Rooms:</h1>
+            <h3 style="color: #ffffff">Active Rooms:</h3>
             <ul>   
                 <?php
                     $tempusername = $_SESSION['username']."_list";
@@ -124,15 +129,17 @@
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
                     <input class="itextarea" type="text" name="comment">
                     <input class="ibutton" type="submit" value="Enter">
+<!--                    <textarea class="itextarea" name="comment" rows="5" cols="40"></textarea>
+                    <button class="ibutton" type="submit" name="submit" value="Submit">Send</button>  -->
                 </form>
             </div>
         </div>
         
         <div class="decider">
-            <div id ="prompt" style="color: #ffffff; text-align: left; vertical-align: middle; line-height: 70px;  "> </div>
+            <div id ="prompt" style="color: #ffffff; text-align: left; margin-left: 20px; vertical-align: middle; line-height: 70px;  "> </div>
             <div id="result" style="color: #ffffff; text-align: center; margin-right: 150px; vertical-align: middle; " ></div>
             <div id="piechart"></div>
-            <button onclick="addChoice()">My Choice</button>
+            <button onclick="addChoice()" style="margin-left: 110px;">My Choice</button>
             <button onclick="endQuery()">Clear</button>
             <button onclick="spin()">Spin</button>
             <button onclick="startQuery()">Prompt</button>
@@ -144,6 +151,17 @@
     
 
     <script>
+//    $(document).ready(function(){
+//    $('.itextarea').keypress(function(e){
+//      if(e.which == 13){
+//           // submit via ajax or
+//           $(".self").append($(this).val()+"<br/>");
+//           $(this).val("");
+//           e.preventDefault();
+//       }
+//    });
+//});
+//    $(".self").animate({ scrollTop: $(".self")[0].scrollHeight}, 1000);
     $(document).ready(function(){
             function refresh_div() {
                     jQuery.ajax({
@@ -353,8 +371,9 @@
                 }
                 var options = {
                     title: q,
-                    backgroundColor: 'transparent'
-//                    is3D: true
+                    backgroundColor: 'transparent',
+                    is3D: true,
+                    legend: {textStyle: {color: 'white', fontSize: 12}}
                 };
                 var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 

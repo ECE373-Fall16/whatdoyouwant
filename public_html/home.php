@@ -1,6 +1,4 @@
 <?php 
-    ob_start();
-
     session_start();
 ?>
 <!DOCTYPE html>
@@ -34,7 +32,7 @@
       
       <div class="tab-content">
         <div id="create">   
-          <h1>Welcome to WDYW!</h1>
+          <h1>Welcome to WhatDoUWant!</h1>
           
           <form action="userRegistrar.php" method="post">
           
