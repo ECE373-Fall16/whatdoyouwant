@@ -14,6 +14,13 @@
 
             $_roomname = mysqli_real_escape_string($con,$roomname);
             $statement = "DELETE from selections WHERE room = '$_roomname'";
+            //$statement2 = "UPDATE rooms SET roomprompt='' WHERE roomname ='$roomname';" ;
+            $statement3 = "UPDATE rooms SET result='' WHERE roomname ='$roomname';" ;
             mysqli_query($con, $statement);
+                       // mysqli_query($con, $statement2);
+                                    mysqli_query($con, $statement3);
+
+
+            
    	}
 ?>

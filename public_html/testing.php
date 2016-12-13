@@ -127,7 +127,7 @@
             </div>
             <div class="chat-form">
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
-                    <input class="itextarea" type="text" name="comment">
+                    <input class="itextarea" type="text" name="comment" autofocus>
                     <input class="ibutton" type="submit" value="Enter">
 <!--                    <textarea class="itextarea" name="comment" rows="5" cols="40"></textarea>
                     <button class="ibutton" type="submit" name="submit" value="Submit">Send</button>  -->
@@ -145,23 +145,10 @@
             <button onclick="startQuery()">Prompt</button>
         </div>
     </div>
-<!--    
-   
-    <p id="demo"></p>-->
     
 
     <script>
-//    $(document).ready(function(){
-//    $('.itextarea').keypress(function(e){
-//      if(e.which == 13){
-//           // submit via ajax or
-//           $(".self").append($(this).val()+"<br/>");
-//           $(this).val("");
-//           e.preventDefault();
-//       }
-//    });
-//});
-//    $(".self").animate({ scrollTop: $(".self")[0].scrollHeight}, 1000);
+
     $(document).ready(function(){
             function refresh_div() {
                     jQuery.ajax({
@@ -265,25 +252,6 @@
                 }
             });        
 
-
-            //var btn = document.createElement("BUTTON");
-            // var t = document.createTextNode("add choice");
-            // btn.appendChild(t);
-            // document.body.appendChild(btn);
-            // btn.onclick = addChoice;
-
-            // var btn2 = document.createElement("BUTTON");
-            // var t2 = document.createTextNode("End Query");
-            // btn2.appendChild(t2);
-            // document.body.appendChild(btn2);
-            // btn2.onclick = endQuery;
-
-            // var btn3 = document.createElement("BUTTON");
-            // var t3 = document.createTextNode("spin");
-            // btn3.appendChild(t3);
-            // document.body.appendChild(btn3);
-            // btn3.onclick = spin;
-
             myFunction();
         }
 
@@ -334,12 +302,12 @@
                 }
             }
             var rand = arr[Math.floor(Math.random() * arr.length)];
-            alert(rand);
             clearChoices();
             addChoicex(rand);
             startResult(rand);
-
+            
         }
+        
         var test = setInterval(myFunction,1500);
         
         function myFunction() {
@@ -370,7 +338,6 @@
 
                 }
                 var options = {
-                    title: q,
                     backgroundColor: 'transparent',
                     is3D: true,
                     legend: {textStyle: {color: 'white', fontSize: 12}}
@@ -406,7 +373,6 @@
             if (r === true) {
                 q = "";
                 clearChoices();
-                //count = [];
             }       
         }
     </script>
