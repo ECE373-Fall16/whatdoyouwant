@@ -4,7 +4,7 @@
             $con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
 
             $username= $_POST['username'];
-            $password = $_POST['password'];
+            $password = md5($_POST['password']);
             $statement = "SELECT id from register WHERE name='$username' AND password='$password' ";
 
             $res = mysqli_query($con, $statement);
@@ -26,7 +26,7 @@
 
 
                     //echo "Invalid Login Details";
-
+                    $_SESSION['no']="no";
                     header('Location: home.php');
             }
 ?>

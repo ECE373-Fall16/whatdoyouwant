@@ -4,7 +4,7 @@
     $con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
 
     $roomname= $_POST['roomnamej'];
-    $password = $_POST['roompasswordj'];
+    $password = md5($_POST['roompasswordj']);
     $statement = "SELECT id from rooms WHERE roomname='$roomname' AND roompassword='$password' ";
 
     $res = mysqli_query($con, $statement);
@@ -31,7 +31,7 @@
 
 
             //echo "Invalid Login Details";
-
+            $_SESSION['nah']="nah";
             header('Location: joinOrCreateRoom.php');
     }
    ?> 

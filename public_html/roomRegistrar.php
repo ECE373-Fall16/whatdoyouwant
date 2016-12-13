@@ -5,11 +5,12 @@
     $con=mysqli_connect("localhost","wdyd_admin","jawk11","wdyd_helloworld");
 
     $roomname = $_POST['roomnamec'];
-    $password = $_POST['roompasswordc'];
+    $password = md5($_POST['roompasswordc']);
     $statement = "SELECT id from rooms WHERE roomname='$roomname' ";
     $res = mysqli_query($con, $statement);
     if($res){
         while($arr = mysqli_fetch_array($res)){
+            $_SESSION['roomtaken']="taken";
             header('Location: joinOrCreateRoom.php');
 
         }
