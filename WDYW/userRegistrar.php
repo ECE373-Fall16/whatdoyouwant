@@ -1,16 +1,18 @@
 <?php
-    ob_start();
+    
 
         session_start();
 
-    $con = mysqli_connect("localhost","root","","helloworld");
+    //$con = mysqli_connect("localhost","root","","helloworld");
+    $con=mysqli_connect("localhost","root","","helloworld");
 
     $username = $_POST['username1'];
-    $password = $_POST['password1'];
+    $password = md5($_POST['password1']);
     $statement = "SELECT id from register WHERE name='$username' ";
     $res = mysqli_query($con, $statement);
     if($res){
         while($arr = mysqli_fetch_array($res)){
+            $_SESSION['taken']="taken";
             header('Location: home.php');
 
         }

@@ -1,6 +1,4 @@
 <?php 
-    ob_start();
-
     session_start();
 ?>
 <!DOCTYPE html>
@@ -15,16 +13,6 @@
 </head>
 
 <body>
-          
-         <?php
-            if(isset($_SESSION['username'])){
-                echo 'Hello ' . $_SESSION['username'] ;
-            }
-            else{
-                echo 'Not signed in';
-            }
-
-      ?>
   <div class="form">
    
       <ul class="tab-group">
@@ -34,7 +22,7 @@
       
       <div class="tab-content">
         <div id="create">   
-          <h1>Welcome to WDYW!</h1>
+          <h1>Welcome to WhatDoUWant!</h1>
           
           <form action="userRegistrar.php" method="post">
           
@@ -91,6 +79,20 @@
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
     <script src="js/index.js"></script>
+    <?php 
+    if(isset($_SESSION['no'])) {
+        echo '<script>';
+        echo 'alert("Incorrect Username/Password!")';
+        echo '</script>';
+        unset($_SESSION['no']);
+    }
+    if(isset($_SESSION['taken'])){
+        echo '<script>';
+        echo 'alert("Username Taken!")';
+        echo '</script>';
+        unset($_SESSION['taken']);
+    }
+?>
 
 </body>
 </html>

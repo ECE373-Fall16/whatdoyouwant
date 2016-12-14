@@ -1,6 +1,4 @@
 <?php
-    ob_start();
-
     session_start();
 ?>
 
@@ -8,19 +6,31 @@
 <html>
 <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title></title>
         <link rel="stylesheet" href="Styles/test.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
+    <div>
+        <form action="joinOrCreateRoom.php" style="display: inline">
+            <button class="button">Join Room</button>
+        </form>
+        <form action="signOut.php" style="display: inline">
+            <button class="signOut">Sign out</button>
+        </form>
+    </div>
+    
+
+
 	<?php
-            $con = mysqli_connect("localhost","root","","helloworld");
+        //$con = mysqli_connect("localhost","root","","helloworld");
+        $con=mysqli_connect("localhost","root","","helloworld");
 
            
   
             if(isset($_SESSION['username'])){
-                echo 'Hello ' . strtoupper($_SESSION['username']) .'. ';
-                $username = $_SESSION['username'] ;
+                 $username = $_SESSION['username'] ;
             }
             else{
                 echo 'Not signed in ';
@@ -28,11 +38,17 @@
             }
             
             if(isset($_SESSION['roomname'])){
-                echo ' Welcome to ' . strtoupper($_SESSION['roomname']). '. ' ;
-                $roomname = $_SESSION['roomname'] ;
+                $roomname = $_SESSION['roomname'] ; ?>
+                <div style=" text-align: center; margin-right: 250px; color: #1ab188;font-family: 'Titillium Web', sans-serif; font-size: 18px"> 
+                    <h2><?php echo 'Hello ' . strtoupper($username) .'. '.'Welcome to: '.$roomname;?></h2>
+                </div>
+        <?php
             }
-            else{
-                echo ' No room?';
+            else{?>
+                <div style=" text-align: center; margin-right: 250px; color: #1ab188;font-family: 'Titillium Web', sans-serif; font-size: 18px"> 
+                    <h2><?php echo 'Hello ' . strtoupper($username) .'. '.'Please Join a room';?></h2>
+                </div>
+    <?php
                 $roomname = "";
             }
              $comment= "";
@@ -53,21 +69,12 @@
             $statement = "SELECT user,message from chat WHERE message != '' AND room = '$_roomname';";
             $res = mysqli_query($con, $statement);
       ?>
-    <div>
-        <form action="joinOrCreateRoom.php">
-            <button>New Chat</button>
-        </form>
-    </div>
-    
-    <div>
-        <form action="signOut.php">
-            <button>Sign-out</button>
-        </form>
-    </div>
+
     
     <div class="container">       
         <nav>
-            <ul>
+            <h3 style="color: #ffffff">Active Rooms:</h3>
+            <ul>   
                 <?php
                     $tempusername = $_SESSION['username']."_list";
                     $statement = "SELECT * from $tempusername";
@@ -76,8 +83,8 @@
                         while($arr = mysqli_fetch_array($res)){   		
                 ?>            
                 
-            <li>
-                <a href="#" class="myButton">turquoise</a>
+               
+                 <li>
             	<?php $var = $arr['activerooms'];?>
                 <form id ="buttons">
                     <button class="myButton"><?php echo $var; ?></button>
@@ -120,21 +127,28 @@
             </div>
             <div class="chat-form">
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
-                    <textarea name="comment" rows="5" cols="40"></textarea>
-                    <button type="submit" name="submit" value="Submit">Send</button>  
+                    <input class="itextarea" type="text" name="comment" autofocus>
+                    <input class="ibutton" type="submit" value="Enter">
+<!--                    <textarea class="itextarea" name="comment" rows="5" cols="40"></textarea>
+                    <button class="ibutton" type="submit" name="submit" value="Submit">Send</button>  -->
                 </form>
             </div>
         </div>
+        
+        <div class="decider">
+            <div id ="prompt" style="color: #ffffff; text-align: left; margin-left: 20px; vertical-align: middle; line-height: 70px;  "> </div>
+            <div id="result" style="color: #ffffff; text-align: center; margin-right: 150px; vertical-align: middle; " ></div>
+            <div id="piechart"></div>
+            <button onclick="addChoice()" style="margin-left: 110px;">My Choice</button>
+            <button onclick="endQuery()">Clear</button>
+            <button onclick="spin()">Spin</button>
+            <button onclick="startQuery()">Prompt</button>
+        </div>
     </div>
-    <div id ="prompt"> </div>
-    <button onclick="addChoice()">Add Choice</button>
-    <button onclick="endQuery()">End Query</button>
-    <button onclick="spin()">Spin</button>
-    <button onclick="startQuery()">Start Query</button>
-    <p id="demo"></p>
-    <div id="piechart" style="width: 500px; height: 500px;"></div>
+    
 
     <script>
+
     $(document).ready(function(){
             function refresh_div() {
                     jQuery.ajax({
@@ -153,7 +167,7 @@
         t = setInterval(refresh_div,100);
 
     });
-            </script>
+    </script>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -163,7 +177,30 @@
         var choice;
         var data;
         var count =[];
+        
+        function queryResult(){
+            $.ajax({
+                type: 'POST',
+                url: 'resultquery.php',
+                success: function(results4){
+                    //alert(results3);
+                    $('#result').text("Result: "+results4);
+                }
+            });
+        }
 
+        function startResult(rand){
+            $.ajax({
+                type: 'POST',
+                url: 'result.php',
+                data: { 
+                    'o':'change',
+                    'rand':rand 
+                },
+                success:function(data) {
+                }
+            }); 
+        }
         function selectChoices() {
             $.ajax({
                 type: 'POST',
@@ -183,7 +220,7 @@
                 url: 'promptquery.php',
                 success: function(results3){
                     //alert(results3);
-                    $('#prompt').text(results3);
+                    $('#prompt').text("Prompt: "+results3);
                 }
             });
         }
@@ -214,25 +251,6 @@
                 success:function(data) {
                 }
             });        
-
-
-            //var btn = document.createElement("BUTTON");
-            // var t = document.createTextNode("add choice");
-            // btn.appendChild(t);
-            // document.body.appendChild(btn);
-            // btn.onclick = addChoice;
-
-            // var btn2 = document.createElement("BUTTON");
-            // var t2 = document.createTextNode("End Query");
-            // btn2.appendChild(t2);
-            // document.body.appendChild(btn2);
-            // btn2.onclick = endQuery;
-
-            // var btn3 = document.createElement("BUTTON");
-            // var t3 = document.createTextNode("spin");
-            // btn3.appendChild(t3);
-            // document.body.appendChild(btn3);
-            // btn3.onclick = spin;
 
             myFunction();
         }
@@ -284,15 +302,17 @@
                 }
             }
             var rand = arr[Math.floor(Math.random() * arr.length)];
-            alert(rand);
             clearChoices();
             addChoicex(rand);
-
+            startResult(rand);
+            
         }
+        
         var test = setInterval(myFunction,1500);
         
         function myFunction() {
             queryPrompt();
+            queryResult();
             selectChoices();
             var myVar = setTimeout(drawChart, 100);  
             google.charts.load('current', {'packages':['corechart']});
@@ -318,7 +338,9 @@
 
                 }
                 var options = {
-                    title: q
+                    backgroundColor: 'transparent',
+                    is3D: true,
+                    legend: {textStyle: {color: 'white', fontSize: 12}}
                 };
                 var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
@@ -351,7 +373,6 @@
             if (r === true) {
                 q = "";
                 clearChoices();
-                //count = [];
             }       
         }
     </script>

@@ -1,11 +1,10 @@
 <?php
-ob_start();
-
     session_start();
-    $con = mysqli_connect("localhost","root","","helloworld");
+    //$con = mysqli_connect("localhost","root","","helloworld");
+    $con=mysqli_connect("localhost","root","","helloworld");
 
     $roomname= $_POST['roomnamej'];
-    $password = $_POST['roompasswordj'];
+    $password = md5($_POST['roompasswordj']);
     $statement = "SELECT id from rooms WHERE roomname='$roomname' AND roompassword='$password' ";
 
     $res = mysqli_query($con, $statement);
@@ -32,7 +31,7 @@ ob_start();
 
 
             //echo "Invalid Login Details";
-
+            $_SESSION['nah']="nah";
             header('Location: joinOrCreateRoom.php');
     }
    ?> 
