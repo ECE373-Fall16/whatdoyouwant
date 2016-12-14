@@ -1,7 +1,8 @@
 <?php
     session_start(); //session was below header
     header('Content-Type: application/json');
-    $con = mysqli_connect("localhost","root","","helloworld");
+    //$con = mysqli_connect("localhost","root","","helloworld");
+    $con=mysqli_connect("localhost","root","","helloworld");
 
             if(isset($_SESSION['roomname'])){
                 $roomname = $_SESSION['roomname'] ;

@@ -1,0 +1,313 @@
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 4, 2016, 12:55:29 AM
+    Author     : DejiNerd
+*/
+
+div.container {
+    width: 100%;
+    height: 90%;
+
+/*    border: 1px solid gray; //??*/
+}
+
+
+nav {
+    float: left;
+/*    max-width: 160px;*/
+    width: 20%;
+    height: 100%;
+    margin: 0;
+    padding: 1em;
+/*    background: rgba(19, 35, 47, 0.9); */
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+   
+nav ul a {
+    text-decoration: none;
+    color: white;
+    align-items: center;
+}
+
+.list{
+    color: white;
+    
+}
+
+*{
+
+    margin:0;
+    padding: 0;
+    font-family: tahoma, sans-serif;
+    box-sizing: border-box;
+    
+}
+
+body{
+    background: rgba(19, 35, 47, 0.9);
+}
+
+.chatbox{
+
+    width: 50%;
+/*    min-width: 390px;*/
+    height: 650px;
+    background: transparent;
+    margin-left: 20%;
+/*    padding: 25px;*/
+/*    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);*/
+}
+
+.chatlogs{
+/*    background: rgba(19, 35, 47, 0.9);*/
+    padding: 10px;
+    width: 100%;
+    height: 90%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.chatlogs::-webkit-scrollbar{
+    width: 10px;
+    
+}
+.chatlogs::-webkit-scrollbar-thumb{
+    border-radius: 5px;
+    background: rgba(0,0,0,.1);
+}
+.chat{
+    display: flex;
+    flex-flow: row wrap;
+/*    align-items: flex-start;
+    margin-bottom: 10px;*/
+}
+
+.chat .chat-message{
+    width: 100%;
+    padding: 15px;
+    margin: 5px 10px 0;
+/*    background: #68B3CC;*/
+    border-radius: 10px;
+}
+
+.friend .chat-message{
+    background: #B6B9BA;
+    
+}
+.self .chat-message{
+    background: #ffffff;
+/*    order: -1;*/
+}
+
+.chat-form{
+    background: transparent;
+/*    width: 100%;
+    height: 100%;*/
+    margin-top: 10px;
+/*    display: flex;
+    align-items: flex-start;*/
+    /*
+    margin-left: 20px;*/
+
+
+}
+
+.itextarea{
+    background: #fbfbfb;
+    width: 90%;
+    height: 40px;
+    border: 2px solid #2A5970;
+    border-color: rgba(19, 35, 47, 0.9);
+    border-radius: 5px;
+    resize: none;
+    padding: 5px;
+    font-size: 18px;
+    color: #333;
+    
+}
+
+.ibutton{
+    background: rgba(19, 35, 47, 0.9);
+    width: 10%;
+    height: 40px;
+    float: right;
+    border-radius: 5px;
+/*    float: right; 
+    height: 40px;
+    padding: 5px 10px;*/
+    color: #fff;
+}
+
+.myButton {
+   border: 2px solid #0a3c59;
+   width: 200px;
+   background: #3e779d;
+   background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+   background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+   background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+   background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+   background: -o-linear-gradient(top, #65a9d7, #3e779d);
+   background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
+   padding: 10.5px 21px;
+   -webkit-border-radius: 6px;
+   -moz-border-radius: 6px;
+   border-radius: 6px;
+   -webkit-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   text-shadow: #7ea4bd 0 1px 0;
+   color: #000000;
+   font-size: 16px;
+   font-family: helvetica, serif;
+   text-align: center;
+   text-decoration: none;
+   vertical-align: middle;
+   margin-top: 12px;
+   }
+.myButton:hover {
+   border: 2px solid #0a3c59;
+   text-shadow: #1e4158 0 1px 0;
+   background: #3e779d;
+   background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+   background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+   background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+   background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+   background: -o-linear-gradient(top, #65a9d7, #3e779d);
+   background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
+   color: #fff;
+   }
+.myButton:active {
+   text-shadow: #1e4158 0 1px 0;
+   border: 2px solid #0a3c59;
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#3e779d));
+   background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+   background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+   background: -o-linear-gradient(top, #3e779d, #65a9d7);
+   background-image: -ms-linear-gradient(top, #3e779d 0%, #65a9d7 100%);
+   color: #fff;
+   }
+   
+   #piechart{
+       width: 450px;
+       height: 500px;
+   }
+   .decider{
+       float: right;
+       margin-top: -650px;
+       width: 30%; 
+   }
+   
+   .signOut{
+       float: right;
+       
+   }  
+.button {
+ -moz-box-shadow:inset 0px 1px 0px 0px #bee2f9;
+ -webkit-box-shadow:inset 0px 1px 0px 0px #bee2f9;
+ box-shadow:inset 0px 1px 0px 0px #bee2f9;
+ background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #63b8ee), color-stop(1, #468ccf) );
+ background:-moz-linear-gradient( center top, #63b8ee 5%, #468ccf 100% );
+ filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#63b8ee', endColorstr='#468ccf');
+ background-color:#63b8ee;
+ -webkit-border-top-left-radius:5px;
+ -moz-border-radius-topleft:5px;
+ border-top-left-radius:5px;
+ -webkit-border-top-right-radius:5px;
+ -moz-border-radius-topright:5px;
+ border-top-right-radius:5px;
+ -webkit-border-bottom-right-radius:5px;
+ -moz-border-radius-bottomright:5px;
+ border-bottom-right-radius:5px;
+ -webkit-border-bottom-left-radius:5px;
+ -moz-border-radius-bottomleft:5px;
+ border-bottom-left-radius:5px;
+ text-indent:1px;
+ border:1px solid #3866a3;
+ display:inline-block;
+ color:#14396a;
+ font-family:Arial;
+ font-size:15px;
+ font-weight:bold;
+ font-style:normal;
+ height:20px;
+ line-height:20px;
+ width:136px;
+ text-decoration:none;
+ text-align:center;
+ text-shadow:1px 1px 0px #7cacde;
+}
+.button:hover {
+ background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #468ccf), color-stop(1, #63b8ee) );
+ background:-moz-linear-gradient( center top, #468ccf 5%, #63b8ee 100% );
+ filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#468ccf', endColorstr='#63b8ee');
+ background-color:#468ccf;
+}
+.button:active {
+ position:relative;
+ top:1px;
+}
+/*   .pie{
+       float: right;
+   }*/
+/*.myButton {
+	-moz-box-shadow: 0px 10px 14px -7px #276873;
+	-webkit-box-shadow: 0px 10px 14px -7px #276873;
+	box-shadow: 0px 10px 14px -7px #276873;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #599bb3), color-stop(1, #408c99));
+	background:-moz-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:-webkit-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:-o-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:-ms-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
+	background-color:#599bb3;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:6px 55px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #599bb3));
+	background:-moz-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:-webkit-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:-o-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:-ms-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#408c99', endColorstr='#599bb3',GradientType=0);
+	background-color:#408c99;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+*/
+
+/*
+
+input{
+    font-size: 22px;
+    border-radius: 10px;
+    border-color: rgba(19, 35, 47, 0.9);
+    display: block;
+    background: white;
+    width: 100%;
+    margin-top: 100px
+}*/

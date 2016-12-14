@@ -1,7 +1,4 @@
 <?php 
-
-    ob_start();
-
     session_start();
 ?>
 <!DOCTYPE html>
@@ -11,8 +8,6 @@
   <title>WDYW</title>
   <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="Styles/login.css">
-
-  
 </head>
 
 <body>
@@ -91,6 +86,19 @@
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
       <script src="js/index.js"></script>
-
+    <?php 
+    if(isset($_SESSION['nah'])) {
+        echo '<script>';
+        echo 'alert("Incorrect Roomname/Password!")';
+        echo '</script>';
+        unset($_SESSION['nah']);
+    }
+    if(isset($_SESSION['roomtaken'])){
+        echo '<script>';
+        echo 'alert("Roomname Taken!")';
+        echo '</script>';
+        unset($_SESSION['roomtaken']);
+    }
+?>
 </body>
 </html>

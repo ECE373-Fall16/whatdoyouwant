@@ -1,9 +1,7 @@
 <?php
-
-    ob_start();
-
     session_start();
-    $con = mysqli_connect("localhost","root","","helloworld");
+    //con = mysqli_connect("localhost","root","","helloworld");
+    $con=mysqli_connect("localhost","root","","helloworld");
 
            
             if(isset($_SESSION['roomname'])){

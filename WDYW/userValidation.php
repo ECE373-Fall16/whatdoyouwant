@@ -1,11 +1,10 @@
 <?php
-        ob_start();
-
             session_start();
-            $con = mysqli_connect("localhost","root","","helloworld");
+            //$con = mysqli_connect("localhost","root","","helloworld");
+            $con=mysqli_connect("localhost","root","","helloworld");
 
             $username= $_POST['username'];
-            $password = $_POST['password'];
+            $password = md5($_POST['password']);
             $statement = "SELECT id from register WHERE name='$username' AND password='$password' ";
 
             $res = mysqli_query($con, $statement);
@@ -27,7 +26,7 @@
 
 
                     //echo "Invalid Login Details";
-
+                    $_SESSION['no']="no";
                     header('Location: home.php');
             }
 ?>
