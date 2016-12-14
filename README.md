@@ -16,7 +16,8 @@ Xampp (Provides Localhost Server and Database management system)
 
 
 Steps:
-Setting up XAMPP
+Setting up XAMPP:
+
 Go to https://www.apachefriends.org/download.html  and download the latest version of XAMPP (PHP 7) compatible to your system.
 Once downloaded, go to https://premium.wpmudev.org/blog/setting-up-xampp/?wpcv=b&utm_expid=3606929-93.spVh-aR3SwGklKzL4HJQQg.1&utm_referrer=https%3A%2F%2Fwww.google.com%2F  
 and follow the installation instructions of XAMPP exactly.
@@ -40,7 +41,8 @@ Once created, it’s going to be blank, look for the import button and import th
 After importing, database tables with various structures should have been created.
 
 
-Setting up the WDYW on localhost
+Setting up the WDYW on localhost:
+
 Open the XAMPP control panel, and start Apache.
 
 Find the XAMPP folder on your machine and access it, it’s most likely in C:\Program Files\XAMPP. If it’s not there, it’s somewhere in your C drive
